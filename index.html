@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molsom Education Platform</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4a154b">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-active { background-color: rgba(255, 255, 255, 0.15); border-left: 4px solid #f59e0b; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-800">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-purple-900 text-white flex flex-col justify-between hidden md:flex">
+            <div>
+                <div class="p-5 border-b border-purple-800 flex items-center space-x-3">
+                    <div class="bg-amber-500 text-purple-900 rounded-lg p-2 font-bold text-xl">M</div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-none">Molsom Edu</h1>
+                        <span class="text-xs text-purple-300">Tripura Platform</span>
+                    </div>
+                </div>
+                <nav class="p-4 space-y-1">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg sidebar-active hover:bg-purple-800 transition">
+                        <i class="fas fa-chart-line w-5"></i><span>Dashboard</span>
+                    </button>
+                    <button onclick="switchTab('classes')" id="nav-classes" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-800 transition">
+                        <i class="fas fa-book-open w-5"></i><span>Classes & Materials</span>
+                    </button>
+                    <button onclick="switchTab('dictionary')" id="nav-dictionary" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-800 transition">
+                        <i class="fas fa-language w-5"></i><span>Dictionary & Translator</span>
+                    </button>
+                    <button onclick="switchTab('exams')" id="nav-exams" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-800 transition">
+                        <i class="fas fa-pen-nib w-5"></i><span>Exams & Results</span>
+                    </button>
+                    <button onclick="switchTab('permissions')" id="nav-permissions" class="w-full flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-purple-800 transition">
+                        <i class="fas fa-user-shield w-5"></i><span>Permissions Manager</span>
+                    </button>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-purple-800 text-xs text-purple-300 space-y-1">
+                <p><i class="fas fa-location-dot mr-1"></i> Udaipur Gomati, Tripura</p>
+                <p><i class="fas fa-phone mr-1"></i> +91 8837332788</p>
+                <p><i class="fas fa-envelope mr-1"></i> sristimolsom1234@gmail.com</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col overflow-y-auto">
+            <header class="bg-white border-b px-6 py-4 flex justify-between items-center shadow-sm">
+                <h2 id="page-title" class="text-xl font-bold text-gray-800">Dashboard Overview</h2>
+                <div class="flex items-center space-x-4">
+                    <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full font-semibold" id="user-role-badge">Admin Mode</span>
+                    <button onclick="toggleRole()" class="text-sm bg-purple-700 text-white px-3 py-1.5 rounded hover:bg-purple-800 transition">
+                        Switch Role
+                    </button>
+                </div>
+            </header>
+
+            <div class="p-6 flex-1" id="main-view">
+                <!-- Dynamic View Content Loaded Here -->
+                <div class="bg-white p-8 rounded-xl shadow-sm border text-center">
+                    <i class="fas fa-graduation-cap text-5xl text-purple-600 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">Welcome to Molsom Education Platform</h3>
+                    <p class="text-gray-600 max-w-xl mx-mx-auto">Empowering student learning and preserving Molsom language heritage in Udaipur Gomati, Tripura.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentRole = 'admin';
+        function toggleRole() {
+            currentRole = currentRole === 'admin' ? 'student' : 'admin';
+            document.getElementById('user-role-badge').innerText = currentRole.toUpperCase() + ' MODE';
+            alert('Switched to ' + currentRole.toUpperCase() + ' role');
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('sidebar-active'));
+            const activeBtn = document.getElementById('nav-' + tab);
+            if (activeBtn) activeBtn.classList.add('sidebar-active');
+            document.getElementById('page-title').innerText = tab.charAt(0).toUpperCase() + tab.slice(1);
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then(() => console.log('SW Registered'));
+        }
+    </script>
+</body>
+</html>
